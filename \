@@ -1,8 +1,0 @@
-struct Position {
-    row: i32,
-    col: i32,
-}
-
-impl Position {
-    fn new(row : i32, col : i32)
-}
