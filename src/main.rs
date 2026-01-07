@@ -1,6 +1,7 @@
 mod block;
 mod blocks;
 mod colors;
+mod game;
 mod grid;
 mod position;
 use raylib::prelude::*;
@@ -15,7 +16,7 @@ fn main() {
     let mut grid = grid::Grid::new();
 
     grid.print();
-    let l_block = blocks::LBlockStruct::new();
+    let mut l_block = blocks::LBlockStruct::new();
     let (mut rl, thread) = raylib::init().size(300, 600).title("Tetris-rs").build();
     rl.set_target_fps(60);
 

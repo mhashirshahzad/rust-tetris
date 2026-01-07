@@ -1,6 +1,6 @@
 1. Setup game loop. (done)
 2. Create grid. (done)
-3. Create blocks.
+3. Create blocks. (done)
 4. Move blocks.
 5. Rotate blocks.
 6. Checking for collisions.
