@@ -45,8 +45,6 @@ impl LBlockStruct {
                 Position::new(2, 1),
             ],
         );
-        LBlockStruct {
-            block: BlockStruct::new(),
-        }
+        LBlockStruct { block }
     }
 }

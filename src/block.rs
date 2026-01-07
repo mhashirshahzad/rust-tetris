@@ -36,7 +36,7 @@ impl BlockStruct {
                 );
             }
         } else {
-            eprintln!("Error drawing block");
+            eprintln!("Error getting tiles");
         }
     }
 }

@@ -21,9 +21,10 @@ fn main() {
 
     while !rl.window_should_close() {
         let mut d = rl.begin_drawing(&thread);
-        l_block.block.draw(&mut d);
         d.clear_background(dark_blue);
         grid.draw(&mut d);
+        l_block.block.draw(&mut d);
+
         //d.draw_text("Hello, world!", 12, 12, 20, Color::BLACK);
     }
 }
