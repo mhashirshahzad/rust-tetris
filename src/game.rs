@@ -1,7 +1,8 @@
 use crate::block::*;
 use crate::grid::Grid;
 use rand::prelude::*;
-
+use raylib::consts::KeyboardKey;
+use raylib::ffi::GetKeyPressed;
 pub struct Game {
     pub grid: Grid,
     blocks: Vec<BlockStruct>,
@@ -38,6 +39,35 @@ impl Game {
         self.grid.draw(d);
         self.curr_block.draw(d);
     }
+
+    pub fn handle_input(&mut self) {
+        unsafe {
+            let key_pressed = GetKeyPressed();
+            match key_pressed {
+                k if k == KeyboardKey::KEY_LEFT as i32 => self.move_block_left(),
+                k if k == KeyboardKey::KEY_RIGHT as i32 => self.move_block_right(),
+                k if k == KeyboardKey::KEY_UP as i32 => self.move_block_up(),
+                k if k == KeyboardKey::KEY_DOWN as i32 => self.move_block_down(),
+                _ => {}
+            }
+        }
+    }
+
+    pub fn move_block_left(&mut self) {
+        self.curr_block.move_blocks(0, -1);
+    }
+
+    pub fn move_block_right(&mut self) {
+        self.curr_block.move_blocks(0, 1);
+    }
+
+    pub fn move_block_down(&mut self) {
+        self.curr_block.move_blocks(1, 0);
+    }
+
+    pub fn move_block_up(&mut self) {
+        self.curr_block.move_blocks(-1, 0);
+    }
 }
 
 fn get_all_blocks() -> Vec<BlockStruct> {
@@ -51,3 +81,4 @@ fn get_all_blocks() -> Vec<BlockStruct> {
         BlockStruct::new(BlockType::Z),
     ]
 }
+
