@@ -13,19 +13,14 @@ fn main() {
         b: 127,
         a: 255,
     };
-    let mut grid = grid::Grid::new();
-
-    grid.print();
-    let mut l_block = block::BlockStruct::new(block::BlockType::O);
+    let game = game::Game::new();
     let (mut rl, thread) = raylib::init().size(300, 600).title("Tetris-rs").build();
     rl.set_target_fps(60);
 
     while !rl.window_should_close() {
         let mut d = rl.begin_drawing(&thread);
         d.clear_background(dark_blue);
-        grid.draw(&mut d);
-        l_block.draw(&mut d);
-
+        game.draw(d)
         //d.draw_text("Hello, world!", 12, 12, 20, Color::BLACK);
     }
 }

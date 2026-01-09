@@ -6,6 +6,7 @@ use raylib::prelude::*;
 use std::collections::HashMap;
 
 use crate::position;
+
 pub struct BlockStruct {
     pub block_type: BlockType,
     pub id: i32,
