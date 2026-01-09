@@ -49,4 +49,11 @@ impl Grid {
             print!("\n");
         }
     }
+
+    pub fn is_cell_outside(&self, row: i32, col: i32) -> bool {
+        if row >= 0 && row < self.rows && col >= 0 && col < self.cols {
+            return false;
+        }
+        return true;
+    }
 }

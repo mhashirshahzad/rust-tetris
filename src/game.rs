@@ -55,18 +55,39 @@ impl Game {
 
     pub fn move_block_left(&mut self) {
         self.curr_block.move_blocks(0, -1);
+        if self.is_block_outside() {
+            self.curr_block.move_blocks(0, 1);
+        }
     }
 
     pub fn move_block_right(&mut self) {
         self.curr_block.move_blocks(0, 1);
+        if self.is_block_outside() {
+            self.curr_block.move_blocks(0, -1)
+        }
     }
 
     pub fn move_block_down(&mut self) {
         self.curr_block.move_blocks(1, 0);
+        if self.is_block_outside() {
+            self.curr_block.move_blocks(-1, 0);
+        }
     }
 
     pub fn move_block_up(&mut self) {
         self.curr_block.move_blocks(-1, 0);
+        if self.is_block_outside() {
+            self.curr_block.move_blocks(1, 0);
+        }
+    }
+    fn is_block_outside(&self) -> bool {
+        let tiles = self.curr_block.get_cell_positions();
+        for item in tiles {
+            if self.grid.is_cell_outside(item.row, item.col) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
@@ -81,4 +102,3 @@ fn get_all_blocks() -> Vec<BlockStruct> {
         BlockStruct::new(BlockType::Z),
     ]
 }
-
