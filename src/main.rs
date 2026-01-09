@@ -16,7 +16,7 @@ fn main() {
     let mut grid = grid::Grid::new();
 
     grid.print();
-    let mut l_block = blocks::LBlockStruct::new();
+    let mut l_block = block::BlockStruct::new(block::BlockType::O);
     let (mut rl, thread) = raylib::init().size(300, 600).title("Tetris-rs").build();
     rl.set_target_fps(60);
 
@@ -24,7 +24,7 @@ fn main() {
         let mut d = rl.begin_drawing(&thread);
         d.clear_background(dark_blue);
         grid.draw(&mut d);
-        l_block.block.draw(&mut d);
+        l_block.draw(&mut d);
 
         //d.draw_text("Hello, world!", 12, 12, 20, Color::BLACK);
     }

@@ -2,12 +2,12 @@
 use crate::block::*;
 use crate::blocks::*;
 use crate::grid::Grid;
-pub struct Game<T> {
+pub struct Game {
     pub grid: Grid,
-    blocks: Vec<T>,
+    blocks: Vec<BlockStruct>,
 }
 
-impl Game<T> {
+impl Game {
     fn new() -> Self {
         todo!();
     }
