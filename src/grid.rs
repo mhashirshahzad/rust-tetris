@@ -64,7 +64,61 @@ impl Grid {
         return false;
     }
 
-    fn is_row_full(&self, row: i32) -> bool {
-        return false;
+    pub fn clear_full_rows(&mut self) -> usize {
+        let mut completed: usize = 0;
+        for row in 0..self.rows {
+            if self.is_row_full(row as usize) {
+                self.clear_row(row as usize);
+                completed += 1;
+            } else if completed > 0 {
+                self.move_row_down(row as usize, completed);
+            }
+        }
+        return completed;
+    }
+    pub fn clear_full_rows_v2(&mut self) -> usize {
+        let mut cleared = 0;
+        let mut write_row = self.rows as isize - 1;
+
+        for read_row in (0..self.rows).rev() {
+            if self.is_row_full(read_row as usize) {
+                cleared += 1;
+            } else {
+                if write_row != read_row as isize {
+                    self.grid[write_row as usize] = self.grid[read_row as usize].clone();
+                }
+                write_row -= 1;
+            }
+        }
+
+        for row in 0..=write_row {
+            for col in 0..self.cols {
+                self.grid[row as usize][col as usize] = 0;
+            }
+        }
+
+        cleared
+    }
+
+    fn is_row_full(&self, row: usize) -> bool {
+        for col in 0..self.cols {
+            if self.grid[row][col as usize] == 0 {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    fn clear_row(&mut self, row: usize) {
+        for col in 0..self.cols {
+            self.grid[row][col as usize] = 0;
+        }
+    }
+
+    fn move_row_down(&mut self, row: usize, num_rows: usize) {
+        for col in 0..self.cols {
+            self.grid[row + num_rows][col as usize] = self.grid[row][col as usize];
+            self.grid[row][col as usize] = 0;
+        }
     }
 }

@@ -109,6 +109,8 @@ impl Game {
             &mut self.next_block,
             Game::pick_random_block(&mut self.blocks),
         );
+
+        self.grid.clear_full_rows_v2();
     }
 
     fn block_fits(&self) -> bool {
