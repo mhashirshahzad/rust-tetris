@@ -9,6 +9,7 @@ pub struct Game {
     blocks: Vec<BlockStruct>,
     curr_block: BlockStruct,
     next_block: BlockStruct,
+    game_over: bool,
 }
 
 impl Game {
@@ -24,6 +25,7 @@ impl Game {
             blocks,
             curr_block,
             next_block,
+            game_over: false,
         }
     }
 
@@ -49,12 +51,19 @@ impl Game {
                 k if k == KeyboardKey::KEY_RIGHT as i32 => self.move_block_right(),
                 k if k == KeyboardKey::KEY_UP as i32 => self.rotate_block(),
                 k if k == KeyboardKey::KEY_DOWN as i32 => self.move_block_down(),
+                k if self.game_over == true && k != 0 => {
+                    self.game_over = false;
+                    self.reset();
+                }
                 _ => {}
             }
         }
     }
 
     pub fn move_block_left(&mut self) {
+        if self.game_over {
+            return ();
+        }
         self.curr_block.move_blocks(0, -1);
         if self.is_block_outside() || self.block_fits() == false {
             self.curr_block.move_blocks(0, 1);
@@ -62,6 +71,9 @@ impl Game {
     }
 
     pub fn move_block_right(&mut self) {
+        if self.game_over {
+            return ();
+        }
         self.curr_block.move_blocks(0, 1);
         if self.is_block_outside() || self.block_fits() == false {
             self.curr_block.move_blocks(0, -1)
@@ -69,6 +81,9 @@ impl Game {
     }
 
     pub fn move_block_down(&mut self) {
+        if self.game_over {
+            return ();
+        }
         self.curr_block.move_blocks(1, 0);
         if self.is_block_outside() || self.block_fits() == false {
             self.curr_block.move_blocks(-1, 0);
@@ -76,12 +91,6 @@ impl Game {
         }
     }
 
-    pub fn move_block_up(&mut self) {
-        self.curr_block.move_blocks(-1, 0);
-        if self.is_block_outside() {
-            self.curr_block.move_blocks(1, 0);
-        }
-    }
     fn is_block_outside(&self) -> bool {
         let tiles = self.curr_block.get_cell_positions();
         for item in tiles {
@@ -91,7 +100,11 @@ impl Game {
         }
         return false;
     }
+
     fn rotate_block(&mut self) {
+        if self.game_over {
+            return ();
+        }
         self.curr_block.rotate();
         if self.is_block_outside() || self.block_fits() == false {
             self.curr_block.un_rotate();
@@ -104,11 +117,15 @@ impl Game {
         for item in tiles {
             self.grid.grid[item.row as usize][item.col as usize] = self.curr_block.id;
         }
-
         self.curr_block = mem::replace(
             &mut self.next_block,
             Game::pick_random_block(&mut self.blocks),
         );
+
+        if self.block_fits() == false {
+            println!("[  Game  ] Game Over!");
+            self.game_over = true;
+        }
 
         self.grid.clear_full_rows_v2();
     }
@@ -125,6 +142,11 @@ impl Game {
             }
         }
         return true;
+    }
+    fn reset(&mut self) {
+        self.grid = Grid::new();
+        self.blocks = get_all_blocks();
+        self.curr_block = Game::pick_random_block(&mut self.blocks);
     }
 }
 
