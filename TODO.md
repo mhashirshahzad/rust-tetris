@@ -2,7 +2,7 @@
 2. Create grid. (done)
 3. Create blocks. (done)
 4. Move blocks. (done)
-5. Rotate blocks.
+5. Rotate blocks. (done)
 6. Checking for collisions.
 7. Check for completed rows.
 8. Game over.

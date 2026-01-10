@@ -56,21 +56,21 @@ impl Game {
 
     pub fn move_block_left(&mut self) {
         self.curr_block.move_blocks(0, -1);
-        if self.is_block_outside() {
+        if self.is_block_outside() || self.block_fits() == false {
             self.curr_block.move_blocks(0, 1);
         }
     }
 
     pub fn move_block_right(&mut self) {
         self.curr_block.move_blocks(0, 1);
-        if self.is_block_outside() {
+        if self.is_block_outside() || self.block_fits() == false {
             self.curr_block.move_blocks(0, -1)
         }
     }
 
     pub fn move_block_down(&mut self) {
         self.curr_block.move_blocks(1, 0);
-        if self.is_block_outside() {
+        if self.is_block_outside() || self.block_fits() == false {
             self.curr_block.move_blocks(-1, 0);
             self.lock_block();
         }
@@ -93,7 +93,7 @@ impl Game {
     }
     fn rotate_block(&mut self) {
         self.curr_block.rotate();
-        if self.is_block_outside() {
+        if self.is_block_outside() || self.block_fits() == false {
             self.curr_block.un_rotate();
         }
     }

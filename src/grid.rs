@@ -63,4 +63,8 @@ impl Grid {
         }
         return false;
     }
+
+    fn is_row_full(&self, row: i32) -> bool {
+        return false;
+    }
 }
