@@ -63,12 +63,12 @@ impl BlockStruct {
         }
         return block;
     }
-    pub fn draw(&self, d: &mut RaylibDrawHandle) {
+    pub fn draw(&self, d: &mut RaylibDrawHandle, offset_x: i32, offset_y: i32) {
         let tiles = self.get_cell_positions();
         for item in tiles {
             d.draw_rectangle(
-                item.col * self.cell_size + 1,
-                item.row * self.cell_size + 1,
+                item.col * self.cell_size + offset_x,
+                item.row * self.cell_size + offset_y,
                 self.cell_size - 1,
                 self.cell_size - 1,
                 self.colors[self.id as usize],

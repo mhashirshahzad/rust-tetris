@@ -1,4 +1,18 @@
 use raylib::prelude::*;
+
+pub static LIGHT_BLUE: Color = Color {
+    r: 59,
+    g: 85,
+    b: 162,
+    a: 255,
+};
+pub static DARK_BLUE: Color = Color {
+    r: 44,
+    g: 44,
+    b: 127,
+    a: 255,
+};
+
 pub fn get_cell_colors() -> Vec<Color> {
     let dark_grey: Color = Color {
         r: 26,

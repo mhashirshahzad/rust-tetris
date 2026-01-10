@@ -32,8 +32,8 @@ impl Grid {
             for col in 0..self.cols {
                 let cell_val = self.grid[row as usize][col as usize];
                 d.draw_rectangle(
-                    col * self.cell_size + 1,
-                    row * self.cell_size + 1,
+                    col * self.cell_size + 11,
+                    row * self.cell_size + 11,
                     self.cell_size - 1,
                     self.cell_size - 1,
                     self.colors[cell_val as usize],
