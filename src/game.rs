@@ -3,6 +3,7 @@ use crate::grid::Grid;
 use rand::prelude::*;
 use raylib::consts::KeyboardKey;
 use raylib::ffi::GetKeyPressed;
+use std::mem;
 pub struct Game {
     pub grid: Grid,
     blocks: Vec<BlockStruct>,
@@ -46,7 +47,7 @@ impl Game {
             match key_pressed {
                 k if k == KeyboardKey::KEY_LEFT as i32 => self.move_block_left(),
                 k if k == KeyboardKey::KEY_RIGHT as i32 => self.move_block_right(),
-                k if k == KeyboardKey::KEY_UP as i32 => self.move_block_up(),
+                k if k == KeyboardKey::KEY_UP as i32 => self.rotate_block(),
                 k if k == KeyboardKey::KEY_DOWN as i32 => self.move_block_down(),
                 _ => {}
             }
@@ -71,6 +72,7 @@ impl Game {
         self.curr_block.move_blocks(1, 0);
         if self.is_block_outside() {
             self.curr_block.move_blocks(-1, 0);
+            self.lock_block();
         }
     }
 
@@ -88,6 +90,39 @@ impl Game {
             }
         }
         return false;
+    }
+    fn rotate_block(&mut self) {
+        self.curr_block.rotate();
+        if self.is_block_outside() {
+            self.curr_block.un_rotate();
+        }
+    }
+
+    fn lock_block(&mut self) {
+        let tiles = self.curr_block.get_cell_positions();
+
+        for item in tiles {
+            self.grid.grid[item.row as usize][item.col as usize] = self.curr_block.id;
+        }
+
+        self.curr_block = mem::replace(
+            &mut self.next_block,
+            Game::pick_random_block(&mut self.blocks),
+        );
+    }
+
+    fn block_fits(&self) -> bool {
+        let tiles = self.curr_block.get_cell_positions();
+        for item in tiles {
+            if self
+                .grid
+                .is_cell_empty(item.row as usize, item.col as usize)
+                == false
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
 

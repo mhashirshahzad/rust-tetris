@@ -56,4 +56,11 @@ impl Grid {
         }
         return true;
     }
+
+    pub fn is_cell_empty(&self, row: usize, col: usize) -> bool {
+        if self.grid[row][col] == 0 {
+            return true;
+        }
+        return false;
+    }
 }

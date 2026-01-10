@@ -93,4 +93,17 @@ impl BlockStruct {
         }
         moved_tiles
     }
+    pub fn rotate(&mut self) {
+        self.rot_state += 1;
+        if self.rot_state == self.cells.len() as i32 {
+            self.rot_state = 0;
+        }
+    }
+
+    pub fn un_rotate(&mut self) {
+        self.rot_state -= 1;
+        if self.rot_state == -1 {
+            self.rot_state = (self.cells.len() - 1) as i32;
+        }
+    }
 }
